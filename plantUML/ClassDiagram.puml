@@ -1,0 +1,73 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+' Normally, this class or one of my classes would implement Serializable
+' I was having issues time and understanding wise with converting
+' non Serializable objects into ones that could be (like ObservableList/SimpleStringProperty)
+class Application
+
+class ToDoListMainMenu{
+    start(Stage primaryStage)
+}
+
+ToDoListMainMenu-> Application
+ToDoListMainMenu o-- MainMenuController
+
+class MainMenuController implements Initializable{
+initialize(URL location, ResourceBundle resources)
+public ObservableList<Items> getTheItems()
+
+public void ValidateButtonPushed(ActionEvent event)
+public void addItemButtonPushed(ActionEvent event)
+public void DeleteButtonPushed(ActionEvent event)
+
+public void changeCompleteStatusCellEvent(TableColumn.CellEditEvent editedCell)
+public void changeItemNameCellEvent(TableColumn.CellEditEvent editedCell)
+public void changeDueDateCellEvent(TableColumn.CellEditEvent editedCell)
+public void changeDescriptionCellEvent(TableColumn.CellEditEvent editedCell)
+
+public void displayIncompleteButtonPushed(ActionEvent event)
+public void displayCompleteButtonPushed(ActionEvent event)
+public void displayAllButtonPushed(ActionEvent event)
+
+public void SaveButtonPushed(ActionEvent event)
+public void LoadButtonPushed(ActionEvent event)
+}
+MainMenuController *-- Items
+MainMenuController *-- MemoryLists
+class Items implements Serializable{
+
+    ' variables
+    private SimpleStringProperty name;
+    private SimpleStringProperty Description;
+    private String Due_Date;
+    private SimpleStringProperty Complete;
+
+    ' constructor
+    public Items(String name,String due_Date,String description, String Complete)
+
+    ' Methods
+    public static boolean removeItems(ObservableList<Items> selected, ObservableList<Items> all)
+    public static ObservableList<String> GetTheOldDisplay(ObservableList<String> items)
+    public static ObservableList<String> displayIncomplete(ObservableList<Items> all_items, ObservableList<String> name_items)
+    public static ObservableList<String> displayComplete(ObservableList<Items> all_items, ObservableList<String> name_items)
+    public static boolean validItem(int desc_length, int title_length, String due_date)
+    public static ObservableList<Items> addItem(ObservableList<Items> items, Items newItem)
+    public String ChangedStrings(String initial_complete, String final_complete)
+    public String ChangeDueDate(Items itemSelected, String new_Date)
+}
+
+class MemoryLists{
+private ObservableList<Items> Item_List
+private String name
+private static final long serialVersionUID
+
+setters()
+getters()
+}
+class WriteObject{
+public void serializeLists(ObservableList<Items> save_the_list)
+}
+
+
+@enduml
